@@ -17,6 +17,7 @@
 	{% if (currentUser) %}		
 		Welcome, {{currentUser.firstName}}, {{ currentUser.email }}!
 		<br>
+		<a href="/apartments/mine">My Listings</a>
 		<a href="/logout">Logout</a>
 	{% endif %}
 	

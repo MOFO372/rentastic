@@ -1,9 +1,11 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutoCloseableDb;
 import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
 
@@ -41,10 +43,35 @@ public class ApartmentController {
 					req.queryParams("zipCode"));
 
 			apartment.saveIt();
-			req.session().attribute("apartment", apartment);
+			User user = req.session().attribute("currentUser"); 
+			user.add(apartment);
+			//req.session().attribute("apartment", apartment);
 			res.redirect("/");
 			return "";
 		}
 	};
 
+	public static final Route index = (Request req, Response res) -> {		
+		User currentUser  = req.session().attribute("currentUser");
+		long id = (long) currentUser.getId(); 
+		
+		try(AutoCloseableDb db = new AutoCloseableDb()) {
+			List<Apartment> apartments = Apartment.where("user_id = ?", id); //the ? prevents SQL injection
+			Map<String, Object> model = new HashMap<String, Object>(); 
+			model.put("apartments",  apartments); 
+			return MustacheRenderer.getInstance().render("apartment/userlist.html", model); 
+		}
+		
+	};
+
 }
+
+
+
+
+
+
+
+
+
+

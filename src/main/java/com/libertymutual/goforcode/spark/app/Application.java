@@ -22,11 +22,17 @@ public class Application {
 		
 		try(AutoCloseableDb db = new AutoCloseableDb()) {
 			User.deleteAll(); 
-			new User("curtis.schlak@theironyard.com", encryptedPassword, "Curtis", "Schlak").saveIt(); 
+			User curtis = new User("curtis.schlak@theironyard.com", encryptedPassword, "Curtis", "Schlak"); 
+			curtis.saveIt(); 
 			
 			Apartment.deleteAll();
-			new Apartment(6969, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125").saveIt(); 
-			new Apartment(4, 5, 6, 350, "123 Cowboy Way", "Houston", "TX", "77006").saveIt();
+			Apartment apartment = new Apartment(6969, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125"); 
+			apartment.save();
+			curtis.add(apartment);
+			
+			apartment = new Apartment(4, 5, 6, 350, "123 Cowboy Way", "Houston", "TX", "77006");
+			apartment.save();
+			curtis.add(apartment);
 		}
 		
 		
@@ -34,6 +40,8 @@ public class Application {
 			before("/new", SecurityFilters.isAuthenticated); 
 			
 			get("/new", ApartmentController.newForm);
+			before("/mine", SecurityFilters.isAuthenticated);
+			get("/mine", ApartmentController.index); 
 			get("/:id", ApartmentController.details); //put this last since it has to be at the very end of the URL
 			
 			before("", SecurityFilters.isAuthenticated); 
