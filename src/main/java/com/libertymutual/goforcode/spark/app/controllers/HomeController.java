@@ -6,9 +6,7 @@ import java.util.Map;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
 import com.libertymutual.goforcode.spark.app.utilities.AutoCloseableDb;
-import com.libertymutual.goforcode.spark.app.utilities.JtwigRenderer;
-
-import spark.ModelAndView;
+import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -23,10 +21,8 @@ public class HomeController {
 			model.put("apartments", apartments);
 			model.put("currentUser", req.session().attribute("currentUser"));
 			model.put("noUser",  req.session().attribute("currentUser") == null); 
-			ModelAndView mv = new ModelAndView(model, "apartment/index.html"); 
-			//return MustacheRenderer.getInstance().render("apartment/index.html", model); //REWRITE THIS LINE WITH NEW TEMPLATE TO RENDER
-			JtwigRenderer renderer = new JtwigRenderer(); 
-			return renderer.render(mv);
+			return MustacheRenderer.getInstance().render("apartment/index.html", model); //REWRITE THIS LINE WITH NEW TEMPLATE TO RENDER
+			
 		}
 		
 	};

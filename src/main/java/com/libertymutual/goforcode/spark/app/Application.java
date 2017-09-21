@@ -27,12 +27,13 @@ public class Application {
 			
 			Apartment.deleteAll();
 			Apartment apartment = new Apartment(6969, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125"); 
-			apartment.save();
 			curtis.add(apartment);
+			apartment.saveIt();
 			
 			apartment = new Apartment(4, 5, 6, 350, "123 Cowboy Way", "Houston", "TX", "77006");
-			apartment.save();
 			curtis.add(apartment);
+			apartment.saveIt();
+			
 		}
 		
 		
@@ -53,10 +54,10 @@ public class Application {
 		get("/login", SessionController.newForm); 
 		post("/login", SessionController.create); 
 		
-		get("/signup", UserController.newForm); 
+		get("/users/new", UserController.newForm); 
 		post("/signup", UserController.create);
 		
-		get("/logout", SessionController.destroy); 
+		post("/logout", SessionController.destroy); 
 		
 		path("/api", () -> {
 			get("/apartments/:id", ApartmentApiController.details); 

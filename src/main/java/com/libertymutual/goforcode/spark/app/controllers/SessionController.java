@@ -18,6 +18,8 @@ public class SessionController {
 	public final static Route newForm = (Request req, Response res) -> {
 		Map<String, Object> model = new HashMap<String,Object>(); 
 		model.put("returnPath",  req.queryParams("returnPath"));
+		model.put("currentUser", req.session().attribute("currentUser"));
+		model.put("noUser",  req.session().attribute("currentUser") == null); 
 		return MustacheRenderer.getInstance().render("session/newForm.html", model); //null means no model, it's a static page
 	};
 	

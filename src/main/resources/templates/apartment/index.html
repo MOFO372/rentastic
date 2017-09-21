@@ -1,34 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>Welcome to your new home, bitch.</title>
 </head>
 <body>
-
-{% if (noUser) %}
-	<a href="/login">Login</a>
-	<br>
-	<a href="/signup">Signup</a>
-	<br>
+	{{> /common/_navigation }}
 	
-{% endif %}
-	
-	{% if (currentUser) %}		
-		Welcome, {{currentUser.firstName}}, {{ currentUser.email }}!
-		<br>
-		<a href="/apartments/mine">My Listings</a>
-		<a href="/logout">Logout</a>
-	{% endif %}
-	
-	<h1>Apartments</h1>
-	<a href="/apartments/new">Create new apartment</a>
-
-	{% for apartment in apartments %}
+	<h1>Apartments!</h1>
+	{{#apartments}}
 		<div>
-			<a href="/apartments/{{ apartment.id }}">{{ apartment.address }}</a>
-			
+			<a href="/apartments/{{ id }}">{{ address }}</a>
 		</div>
-	{% endfor %}
+	{{/apartments}}
+	
 </body>
 </html>
