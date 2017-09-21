@@ -26,11 +26,11 @@ public class Application {
 			curtis.saveIt(); 
 			
 			Apartment.deleteAll();
-			Apartment apartment = new Apartment(6969, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125"); 
+			Apartment apartment = new Apartment(6969, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125", true); 
 			curtis.add(apartment);
 			apartment.saveIt();
 			
-			apartment = new Apartment(4, 5, 6, 350, "123 Cowboy Way", "Houston", "TX", "77006");
+			apartment = new Apartment(4, 5, 6, 350, "123 Cowboy Way", "Houston", "TX", "77006", false);
 			curtis.add(apartment);
 			apartment.saveIt();
 			
@@ -44,6 +44,8 @@ public class Application {
 			before("/mine", SecurityFilters.isAuthenticated);
 			get("/mine", ApartmentController.index); 
 			get("/:id", ApartmentController.details); //put this last since it has to be at the very end of the URL
+			post("/:id/activations", ApartmentController.activate); 
+			post("/:id/deactivations", ApartmentController.deactivate); 
 			
 			before("", SecurityFilters.isAuthenticated); 
 			post("", ApartmentController.create); 

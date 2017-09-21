@@ -45,7 +45,8 @@ public class ApartmentController {
 					req.queryParams("address"),
 					req.queryParams("city"), 
 					req.queryParams("state"), 
-					req.queryParams("zip_code"));
+					req.queryParams("zip_code"),
+					true);
 
 			apartment.saveIt();
 			User user = req.session().attribute("currentUser"); 
@@ -56,16 +57,52 @@ public class ApartmentController {
 		}
 	};
 
-	public static final Route index = (Request req, Response res) -> {		
+	public static final Route index = (Request req, Response res) -> {	
 		User currentUser  = req.session().attribute("currentUser");
 		long id = (long) currentUser.getId(); 
 		
 		try(AutoCloseableDb db = new AutoCloseableDb()) {
-			List<Apartment> apartments = Apartment.where("user_id = ?", id); //the ? prevents SQL injection
-			Map<String, Object> model = new HashMap<String, Object>(); 
-			model.put("apartments",  apartments); 
+			
+			List<Apartment> activeApartments = Apartment.where("user_id = ? and is_active = ?", id, true);
+			List<Apartment> inactiveApartments = Apartment.where("user_id = ? and is_active = ?", id, false);
+	
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("isActive", activeApartments);
+			model.put("notActive", inactiveApartments);
+			model.put("currentUser",  req.session().attribute("currentUser"));
 			return MustacheRenderer.getInstance().render("apartment/userlist.html", model); 
 		}
+		
+	};
+
+	public static final Route activate = (Request req, Response res) -> {
+		User currentUser  = req.session().attribute("currentUser");
+		long id = (long) currentUser.getId(); 
+		
+		List<Apartment> activeApartments = Apartment.where("user_id = ? and is_active = ?", id, true);
+		List<Apartment> inactiveApartments = Apartment.where("user_id = ? and is_active = ?", id, false);
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("isActive", activeApartments);
+		model.put("notActive", inactiveApartments);
+		model.put("currentUser",  req.session().attribute("currentUser"));
+		res.redirect("/apartments/:id");
+		return "";
+	};
+
+	public static final Route deactivate = (Request req, Response res) -> {		
+		User currentUser  = req.session().attribute("currentUser");
+		long id = (long) currentUser.getId(); 
+		
+		List<Apartment> activeApartments = Apartment.where("user_id = ? and is_active = ?", id, true);
+		List<Apartment> inactiveApartments = Apartment.where("user_id = ? and is_active = ?", id, false);
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("isActive", activeApartments);
+		model.put("notActive", inactiveApartments);
+		model.put("currentUser",  req.session().attribute("currentUser"));
+		res.redirect("/apartments/:id");
+		return "";
 		
 	};
 

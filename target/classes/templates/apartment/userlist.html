@@ -6,9 +6,34 @@
 </head>
 <body>
 
-{{#apartments}}
-	<a href="/apartments/{{ id }}">{{ address }}</a>
-	<br>
-{{/apartments}}
+<h1>Your listings</h1>
+
+<h2>Active Listings</h2>
+
+
+
+			{{#isActive}}
+			<div>
+			
+				<a href="/apartments/{{ id }}">{{ address }}</a>
+			</div>
+			{{/isActive}}
+			
+			
+			
+			
+			
+				<h2>Inactive Listings</h2>
+			
+		
+			
+			
+			{{#notActive}}
+				<div>
+		
+				<a href="/apartments/{{ id }}">{{ address }}</a>
+			</div>
+			{{/notActive}}
+
 </body>
 </html>

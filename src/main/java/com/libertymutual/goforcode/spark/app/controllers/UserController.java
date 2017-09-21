@@ -33,7 +33,8 @@ public class UserController {
 			); 
 				
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
-			user.saveIt(); req.session().attribute("currentUser", user); 
+			user.saveIt(); 
+			req.session().attribute("currentUser", user); 
 			res.redirect("/");
 			return ""; 
 		}

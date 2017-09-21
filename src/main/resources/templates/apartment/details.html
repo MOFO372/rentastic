@@ -2,12 +2,24 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Apartment Details</title>
 </head>
 <body>
 
 {{> /common/_navigation }}
 
+{{#notActive}}
+<form method="post" action="/apartments/:id/activations">
+	<button>Activate listing</button>
+</form>
+{{/notActive}}
+
+
+{{#isActive}}
+<form method="post" action="/apartments/:id/deactivations">
+	<button>Deactivate listing</button>
+</form>
+{{/isActive}}
 
 	<h1>Only ${{apartment.rent}}</h1>
 
@@ -15,13 +27,14 @@
 		{{ apartment.address }} <br> {{apartment.city}}, {{apartment.state}} {{ apartment.zip }}
 	</p>
 
-	<dl></dl>
+	<dl>
 	<dt>Number of Bedrooms:</dt>
 	<dd>{{ apartment.numberOfBedrooms }}</dd>
 	<dt>Number of Bathrooms:</dt>
 	<dd>{{ apartment.numberOfBathrooms }}</dd>
 	<dt>Square Footage:</dt>
 	<dd>{{ apartment.squareFeet }}</dd>
+</dl>
 
 </body>
 </html>

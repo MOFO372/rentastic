@@ -7,7 +7,7 @@ public class Apartment extends Model {
 	
 	public Apartment() {}
 	
-	public Apartment(int rent, int numberOfBedrooms, double numberOfBathrooms, int squareFootage, String address, String city, String state, String zip_code) {
+	public Apartment(int rent, int numberOfBedrooms, double numberOfBathrooms, int squareFootage, String address, String city, String state, String zipCode, boolean isActive) {
 		setRent(rent); 
 		setNumberOfBedrooms(numberOfBedrooms); 
 		setNumberOfBathrooms(numberOfBathrooms); 
@@ -15,7 +15,8 @@ public class Apartment extends Model {
 		setAddress(address); 
 		setCity(city); 
 		setState(state); 
-		setZip(zip_code); 
+		setZip(zipCode);
+		setIsActive(isActive);
 		
 	}
 
@@ -71,8 +72,8 @@ public class Apartment extends Model {
 		return getString("zip_code");
 	}
 
-	public void setZip(String zip_code) {
-		set("zip_code", zip_code);
+	public void setZip(String zipCode) {
+		set("zip_code", zipCode);
 	}
 
 	public int getRent() {
@@ -81,6 +82,15 @@ public class Apartment extends Model {
 
 	public void setRent(int rent) {
 		set("rent", rent);
+	}
+	
+	
+	public void setIsActive(boolean isActive) {
+		set("is_active", isActive);
+	}
+	
+	public boolean getIsActive() {
+		return getBoolean("is_active"); 
 	}
 
 }

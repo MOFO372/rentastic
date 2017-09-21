@@ -21,6 +21,7 @@ public class HomeController {
 			model.put("apartments", apartments);
 			model.put("currentUser", req.session().attribute("currentUser"));
 			model.put("noUser",  req.session().attribute("currentUser") == null); 
+			//model.put("isActive", req.session().attribute("isActive") == true); 
 			return MustacheRenderer.getInstance().render("apartment/index.html", model); //REWRITE THIS LINE WITH NEW TEMPLATE TO RENDER
 			
 		}
