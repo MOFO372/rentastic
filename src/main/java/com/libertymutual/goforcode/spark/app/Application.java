@@ -46,6 +46,7 @@ public class Application {
 			get("/:id", ApartmentController.details); //put this last since it has to be at the very end of the URL
 			post("/:id/activations", ApartmentController.activate); 
 			post("/:id/deactivations", ApartmentController.deactivate); 
+			post("/:id/like", ApartmentController.like); 
 			
 			before("", SecurityFilters.isAuthenticated); 
 			post("", ApartmentController.create); 

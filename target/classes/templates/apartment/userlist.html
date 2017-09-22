@@ -6,34 +6,28 @@
 </head>
 <body>
 
-<h1>Your listings</h1>
+	{{> /common/_navigation }}
 
-<h2>Active Listings</h2>
+	<h1>Your listings</h1>
+
+	<h2>Active Listings</h2>
+
+	{{#isActive}}
+	<div>
+
+		<a href="/apartments/{{ id }}">{{ address }}</a>
+	</div>
+	{{/isActive}}
+
+	<h2>Inactive Listings</h2>
 
 
+	{{#notActive}}
+	<div>
 
-			{{#isActive}}
-			<div>
-			
-				<a href="/apartments/{{ id }}">{{ address }}</a>
-			</div>
-			{{/isActive}}
-			
-			
-			
-			
-			
-				<h2>Inactive Listings</h2>
-			
-		
-			
-			
-			{{#notActive}}
-				<div>
-		
-				<a href="/apartments/{{ id }}">{{ address }}</a>
-			</div>
-			{{/notActive}}
+		<a href="/apartments/{{ id }}">{{ address }}</a>
+	</div>
+	{{/notActive}}
 
 </body>
 </html>

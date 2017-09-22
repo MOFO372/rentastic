@@ -21,12 +21,14 @@ public class ApartmentController {
 
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
 			Apartment apartment = Apartment.findById(id);
-			User currentUser = req.session().attribute("currentUser"); //ADDED
+			User currentUser = req.session().attribute("currentUser"); 
+			List<User> liker = apartment.getAll(User.class); 
 			
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartment", apartment);			
 			model.put("currentUser", req.session().attribute("currentUser"));
 			model.put("noUser", req.session().attribute("currentUser") == null);
+			model.put("liker", liker); 
 			
 			if(currentUser != null) {
 				model.put("owner", (currentUser.getId().toString()).equals(apartment.get("user_id").toString()));
@@ -79,8 +81,7 @@ public class ApartmentController {
 
 	public static final Route activate = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
-			String idAsString = req.params("id");
-			int id = Integer.parseInt(idAsString);
+			int id = Integer.parseInt(req.params("id"));
 			Apartment apartment = Apartment.findById(id);
 			apartment.set("is_active", true);
 			apartment.saveIt();
@@ -92,8 +93,7 @@ public class ApartmentController {
 
 	public static final Route deactivate = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
-			String idAsString = req.params("id");
-			int id = Integer.parseInt(idAsString);
+			int id = Integer.parseInt(req.params("id"));
 			Apartment apartment = Apartment.findById(id);
 			apartment.set("is_active", false);
 			apartment.saveIt();
@@ -101,6 +101,18 @@ public class ApartmentController {
 			return "";
 		}
 
+	};
+	
+	public static final Route like = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			String idAsString = req.params("id");
+			int id = Integer.parseInt(idAsString);
+			Apartment apartment = Apartment.findById(id);
+			User currentUser = req.session().attribute("currentUser");
+			apartment.add(currentUser);
+			res.redirect("/apartments/" + id);
+			return "";
+		}
 	};
 
 }

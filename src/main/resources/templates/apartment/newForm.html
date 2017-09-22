@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>New Apartment</title>
+<title>New Listing</title>
 </head>
 <body>
 
 {{> /common/_navigation }}
 
-<h1>Apartments!</h1>
+<h1>Enter Apartment Details</h1>
 	<form method="post" action="/apartments">
 		<input type="number" required name="rent" placeholder="Rent">
 		<br>
@@ -26,7 +26,7 @@
 		<br>
 		<input type="text" required name="zip_code" placeholder="Zip code">
 		<br>
-		<button>Create</button>
+		<button>Add listing</button>
 	</form>
 </body>
 </html>

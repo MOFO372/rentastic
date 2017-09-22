@@ -6,38 +6,62 @@
 </head>
 <body>
 
-{{> /common/_navigation }}
+	{{> /common/_navigation }} 
+	
+	
+	{{#owner}} 
+		{{^apartment.isActive}}
+			<form method="post" action="/apartments/{{ apartment.id }}/activations">
+				<button>Activate listing</button>
+			</form>
+		{{/apartment.isActive}} 
+		
+		
+		{{#apartment.isActive}}
+			<form method="post" action="/apartments/{{ apartment.id }}/deactivations">
+				<button>Deactivate listing</button>
+			</form>
+		{{/apartment.isActive}}
+		
 
+		{{#liker}}
+			<h2>Likes: {{ firstName }} {{ lastName }}</h2>		
+		{{/liker}}
 
-{{#owner}}
-{{^apartment.isActive}}
-<form method="post" action="/apartments/{{ apartment.id }}/activations">
-	<button>Activate listing</button>
-</form>
-{{/apartment.isActive}}
+	{{/owner}} 
+	
+	
+	{{#currentUser}} 
+		{{^owner}}
+			{{^liker}}
+				<form method="post" action="/apartments/{{ apartment.id }}/like">
+					<button onclick="this.style.display='none'">Like this apartment</button>
+				</form>
+			{{/liker}}
+		{{/owner}} 
+	{{/currentUser}} 
+	
+	
+	{{^currentUser}}
+		<a href="/login?returnPath=/apartments/{{ apartment.id }}">Login to LIKE this apartment</a> 
+	{{/currentUser}}
 
-
-{{#apartment.isActive}}
-<form method="post" action="/apartments/{{ apartment.id }}/deactivations">
-	<button>Deactivate listing</button>
-</form>
-{{/apartment.isActive}}
-{{/owner}}
 
 	<h1>Only ${{apartment.rent}}</h1>
 
 	<p>
-		{{ apartment.address }} <br> {{apartment.city}}, {{apartment.state}} {{ apartment.zip }}
+		{{ apartment.address }} 
+	<br> {{apartment.city}}, {{apartment.state}} {{ apartment.zip }}
 	</p>
 
 	<dl>
-	<dt>Number of Bedrooms:</dt>
-	<dd>{{ apartment.numberOfBedrooms }}</dd>
-	<dt>Number of Bathrooms:</dt>
-	<dd>{{ apartment.numberOfBathrooms }}</dd>
-	<dt>Square Footage:</dt>
-	<dd>{{ apartment.squareFeet }}</dd>
-</dl>
+		<dt>Number of Bedrooms:</dt>
+		<dd>{{ apartment.numberOfBedrooms }}</dd>
+		<dt>Number of Bathrooms:</dt>
+		<dd>{{ apartment.numberOfBathrooms }}</dd>
+		<dt>Square Footage:</dt>
+		<dd>{{ apartment.squareFeet }}</dd>
+	</dl>
 
 </body>
 </html>
