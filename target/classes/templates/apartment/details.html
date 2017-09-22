@@ -8,6 +8,8 @@
 
 {{> /common/_navigation }}
 
+
+{{#owner}}
 {{^apartment.isActive}}
 <form method="post" action="/apartments/{{ apartment.id }}/activations">
 	<button>Activate listing</button>
@@ -20,7 +22,7 @@
 	<button>Deactivate listing</button>
 </form>
 {{/apartment.isActive}}
-
+{{/owner}}
 
 	<h1>Only ${{apartment.rent}}</h1>
 
