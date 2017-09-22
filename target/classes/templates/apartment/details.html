@@ -8,18 +8,19 @@
 
 {{> /common/_navigation }}
 
-{{#notActive}}
-<form method="post" action="/apartments/:id/activations">
+{{^apartment.isActive}}
+<form method="post" action="/apartments/{{ apartment.id }}/activations">
 	<button>Activate listing</button>
 </form>
-{{/notActive}}
+{{/apartment.isActive}}
 
 
-{{#isActive}}
-<form method="post" action="/apartments/:id/deactivations">
+{{#apartment.isActive}}
+<form method="post" action="/apartments/{{ apartment.id }}/deactivations">
 	<button>Deactivate listing</button>
 </form>
-{{/isActive}}
+{{/apartment.isActive}}
+
 
 	<h1>Only ${{apartment.rent}}</h1>
 
