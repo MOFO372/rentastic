@@ -63,6 +63,7 @@ public class Application {
 		post("/logout", SessionController.destroy); 
 		
 		path("/api", () -> {
+			get("/apartments/", ApartmentApiController.index); 
 			get("/apartments/:id", ApartmentApiController.details); 
 			post("/apartments", ApartmentApiController.create); 
 		});

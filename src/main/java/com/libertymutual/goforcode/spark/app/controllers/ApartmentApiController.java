@@ -8,6 +8,8 @@ import static spark.Spark.notFound;
 
 import java.util.Map;
 
+import org.javalite.activejdbc.LazyList;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -41,5 +43,12 @@ public class ApartmentApiController {
 		}
 	};
 	
+	public static final Route index = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			LazyList<Apartment> apartments = Apartment.where("isActive = ?", true); 
+			res.header("Content-Type", "application/json");
+			return apartments.toJson(true);
+		}
+ 	}; 
 
 }
