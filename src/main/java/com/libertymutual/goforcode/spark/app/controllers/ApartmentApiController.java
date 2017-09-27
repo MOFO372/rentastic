@@ -1,6 +1,7 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutoCloseableDb;
 import com.libertymutual.goforcode.spark.app.utilities.JsonHelper;
 
@@ -45,7 +46,19 @@ public class ApartmentApiController {
 	
 	public static final Route index = (Request req, Response res) -> {
 		try (AutoCloseableDb db = new AutoCloseableDb()) {
-			LazyList<Apartment> apartments = Apartment.where("isActive = ?", true); 
+			LazyList<Apartment> apartments = Apartment.where("is_active = ?", true); 
+			res.header("Content-Type", "application/json");
+			return apartments.toJson(true);
+		}
+ 	}; 
+ 	
+ 	//ADDED
+ 	public static final Route mine = (Request req, Response res) -> {
+ 		User currentUser = req.session().attribute("currentUser"); 
+		long id = (long) currentUser.getId(); 
+		
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			LazyList<Apartment> apartments = Apartment.where("user_id = ?", id); 
 			res.header("Content-Type", "application/json");
 			return apartments.toJson(true);
 		}
