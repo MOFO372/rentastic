@@ -20,4 +20,22 @@ export class ApartmentDataService {
       .get('http://localhost:4567/api/apartments/mine', { withCredentials: true })
       .map(response => response.json());
   }
+
+  activate(apartment): Observable<Apartment[]> {
+    return this.http
+      .post(`http://localhost:4567/api/apartments/${apartment.id}/activations`, {},  { withCredentials: true })
+      .map(response => response.json()); 
+  }
+
+  deactivate(apartment): Observable<Apartment[]> {
+    return this.http
+      .post(`http://localhost:4567/api/apartments/${apartment.id}/deactivations`, {},  { withCredentials: true })
+      .map(response => response.json()); 
+  }
+
+  like(apartment): Observable<Apartment[]> {
+    return this.http
+      .post(`http://localhost:4567/api/apartments/${apartment.id}/likes`, {}, { withCredentials: true })
+      .map(response => response.json()); 
+  }
 }

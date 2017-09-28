@@ -52,7 +52,6 @@ public class ApartmentApiController {
 		}
  	}; 
  	
- 	//ADDED
  	public static final Route mine = (Request req, Response res) -> {
  		User currentUser = req.session().attribute("currentUser"); 
 		long id = (long) currentUser.getId(); 
@@ -63,5 +62,45 @@ public class ApartmentApiController {
 			return apartments.toJson(true);
 		}
  	}; 
+ 	
+ 	
+ 	//ADDED
+ 	public static final Route activate = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			int id = Integer.parseInt(req.params("id"));
+			Apartment apartment = Apartment.findById(id);
+			apartment.set("is_active", true);
+			apartment.saveIt();
+			res.header("Content-Type", "application/json");
+			return apartment.toJson(true);
+		}
+
+	};
+	//ADDED
+	public static final Route deactivate = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			int id = Integer.parseInt(req.params("id"));
+			Apartment apartment = Apartment.findById(id);
+			apartment.set("is_active", false);
+			apartment.saveIt();
+			res.header("Content-Type", "application/json");
+			return apartment.toJson(true);
+		}
+
+	};
+	//ADDED
+	public static final Route like = (Request req, Response res) -> {
+		try (AutoCloseableDb db = new AutoCloseableDb()) {
+			String idAsString = req.params("id");
+			int id = Integer.parseInt(idAsString);
+			Apartment apartment = Apartment.findById(id);
+			User currentUser = req.session().attribute("currentUser");
+			apartment.add(currentUser);
+			res.header("Content-Type", "application/json");
+			return apartment.toJson(true);
+		}
+	};
+
+	
 
 }

@@ -70,6 +70,11 @@ public class Application {
 			get("/apartments/:id", ApartmentApiController.details); 
 			post("/apartments", ApartmentApiController.create); 
 			
+			//ADDED
+			post("/apartments/:id/activations", ApartmentApiController.activate); 
+			post("/apartments/:id/deactivations", ApartmentApiController.deactivate); 
+			post("/apartments/:id/likes", ApartmentApiController.like); 
+			
 			post("/sessions", SessionApiController.create); 
 			delete("/sessions/mine", SessionApiController.destroy); //will destroy only your session 
 			
