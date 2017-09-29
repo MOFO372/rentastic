@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { User } from '../user';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { User } from '../user';
-import { Subject } from 'rxjs/Subject';
-
-import 'rxjs/add/operator/do'; 
 
 @Injectable()
-export class SessionDataService {
+export class UserDataService {
 
-  baseUrl= 'http://localhost:4567/api/sessions';
+  baseUrl= 'http://localhost:4567/api/users';
   options = { withCredentials: true}; 
 
   userChanged: Subject<User>;
@@ -19,12 +17,8 @@ export class SessionDataService {
     this.userChanged = new Subject<User>();
    }
 
-   getCurrentUser(): User {
-     return this.currentUser; 
-   }
-
-  login(email: string, password: string): Observable<User> {
-    const payload = { email, password }; 
+  signup(email: string, password: string, first_name: string, last_name: string): Observable<User> {
+    const payload = { email, password, first_name, last_name }; 
     return this.http 
       .post(this.baseUrl, payload, this.options)
       .map(response => response.json())
@@ -37,13 +31,5 @@ export class SessionDataService {
       .do(user => this.userChanged.next(user))
       .do(user => this.currentUser = user);
   }
-
-  logout(): Observable<User> {
-    return this.http
-      .delete(`${this.baseUrl}/mine`, { withCredentials: true})
-      .map(response => null) //TODO: come back and finish the failure
-      .do(user => this.userChanged.next(user))
-      .do(() => this.currentUser=null);
-    }
 
 }

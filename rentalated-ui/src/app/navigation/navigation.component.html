@@ -5,6 +5,7 @@
   <br>
   <a routerLink="/apartments/mine" *ngIf="currentUser">Your Listings</a>
   <br>
+  <a routerLink="/apartments/users/signup" *ngIf="!currentUser">Sign up</a>
   <br>
   <button (click)="logout()" *ngIf="currentUser">Logout</button>
 </p>

@@ -8,6 +8,7 @@
 <br>
 
 <h2>Inactive Apartments</h2>
+
 <div *ngFor="let apartment of apartments">
   <a (click)="selectApartment(apartment)" *ngIf="!apartment.is_active">{{ apartment.address }}</a>
 </div>
@@ -17,3 +18,5 @@
 <button *ngIf="selectedApartment" (click)="hideDetails()">Hide</button>
 
 <app-apartment-detail *ngIf="selectedApartment" [apartment]="selectedApartment"></app-apartment-detail>
+
+

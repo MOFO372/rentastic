@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Apartment } from '../apartment';
 import { ApartmentDataService } from '../apartment-data/apartment-data.service';
+import { User } from '../user';
+import { SessionDataService } from '../session-data/session-data.service';
 
 @Component({
   selector: 'app-apartment-detail',
@@ -10,46 +12,50 @@ import { ApartmentDataService } from '../apartment-data/apartment-data.service';
 export class ApartmentDetailComponent implements OnInit {
 
   @Input()
-  apartment: Apartment; 
-  message: string; 
+  apartment: Apartment;
+  message: string;
+  currentUser = new User();
 
-  constructor(private data: ApartmentDataService) { }
+  constructor(private data: ApartmentDataService, private service: SessionDataService) { }
 
-  activateApartment() { 
-    this.data 
+  getCurrentUser() {
+    return this.currentUser = this.service.getCurrentUser();
+  }
+
+  get userIsOwner() {
+    return this.getCurrentUser() && this.getCurrentUser().id === this.apartment.user_id;
+  }
+
+  activateApartment(apartment) {
+    this.data
       .activate(this.apartment)
       .subscribe( //you have to subscribe to the event in order to make HTTP calls
-         apartment => {
-              this.apartment.is_active = true;
-          }
+      apartment => {
+        this.apartment.is_active = true;
+      }
       );
   }
 
-  deactivateApartment() { 
-    this.data 
+  deactivateApartment(apartment) {
+    this.data
       .deactivate(this.apartment)
       .subscribe( //you have to subscribe to the event in order to make HTTP calls
-         apartment => {
-            this.apartment.is_active = false;
-          }
+      apartment => {
+        this.apartment.is_active = false;
+      }
       );
   }
 
-  // likeApartment() { 
-  //   this.data 
-  //     .like(this.apartment)
-  //     .subscribe( //you have to subscribe to the event in order to make HTTP calls
-  //        user => {
-  //           if (user) {
-  //             this.message = 'Apartment activated, yo.';
-  //           } else {
-  //             this.message = 'Nah bitch.';
-  //           }
-  //         },
-  //         e => this.message = 'RUH ROH! ' + e
-  //     );
-  // }
+  likeApartment(currentUser) {
+    this.data
+      .like(this.apartment)
+      .subscribe( //you have to subscribe to the event in order to make HTTP calls
+      apartment => {
+        console.log('likeeeeee woahhhhhh');
+      }
 
+      );
+  }
 
   ngOnInit() {
   }
